@@ -4,7 +4,7 @@ import { onMounted, ref } from "vue";
 import ModalForm from "@/components/Subjects/ModalForm.vue";
 import { useSubjectStore } from "@/stores/Subject.Store";
 
-const { list } = useSubjectsService();
+const { list, destroy } = useSubjectsService();
 const { setModel } = useSubjectStore();
 const subjectList = ref([]);
 const isOpenedBookDialog = ref(false);
@@ -26,6 +26,13 @@ async function loadSubjects() {
 function openDialogFormModal(item = {}) {
   setModel(item);
   isOpenedBookDialog.value = true;
+}
+
+async function removeItem(item) {
+  if (window.confirm("Quer realmente remover esse assunto?")) {
+    await destroy(item.cod);
+    await loadSubjects();
+  }
 }
 
 onMounted(() => {
@@ -91,7 +98,7 @@ export default {
                       <button class="btn btn-sm btn-outline-primary me-1" @click="openDialogFormModal(subject)">
                         <i class="mdi mdi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger">
+                      <button class="btn btn-sm btn-outline-danger" @click="removeItem(subject)">
                         <i class="mdi mdi-delete"></i>
                       </button>
                     </td>

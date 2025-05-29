@@ -4,7 +4,7 @@ import { onMounted, ref } from "vue";
 import ModalForm from "@/components/Authors/ModalForm.vue";
 import { useAuthorStore } from "@/stores/Author.Store";
 
-const { list } = useAuthorsService();
+const { list, destroy } = useAuthorsService();
 const { setModel } = useAuthorStore();
 const authorList = ref([]);
 const isOpenedBookDialog = ref(false);
@@ -26,6 +26,13 @@ async function loadAuthors() {
 function openDialogFormModal(item = {}) {
   setModel(item);
   isOpenedBookDialog.value = true;
+}
+
+async function removeItem(item) {
+  if (window.confirm("Quer realmente remover esse autor?")) {
+    await destroy(item.cod);
+    await loadAuthors();
+  }
 }
 
 onMounted(() => {
@@ -96,7 +103,7 @@ export default {
                       <button class="btn btn-sm btn-outline-primary me-1" @click="openDialogFormModal(author)">
                         <i class="mdi mdi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger">
+                      <button class="btn btn-sm btn-outline-danger" @click="removeItem(author)">
                         <i class="mdi mdi-delete"></i>
                       </button>
                     </td>
