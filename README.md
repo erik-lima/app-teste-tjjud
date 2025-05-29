@@ -8,7 +8,7 @@ Este projeto é composto por duas partes principais: **back-end** e **front-end*
 
 O back-end do projeto está localizado na pasta `back-end` e utiliza as seguintes tecnologias:
 
-- **PHP** (provavelmente versão 8+)
+- **PHP** (8+)
 - **Laravel** (framework principal)
 - **Composer** (gerenciador de dependências PHP)
 - **Banco de Dados** (MySQL, MariaDB ou similar, utilizado via Eloquent ORM)
