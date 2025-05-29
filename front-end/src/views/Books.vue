@@ -24,6 +24,7 @@ async function loadLivros() {
 }
 
 function openDialogFormModal(item = {}) {
+    console.log(item);
     setModel(item)
     isOpenedBookDialog.value = true;
 }
@@ -40,7 +41,7 @@ export default {
 </script>
 
 <template>
-    <div class="container mt-4">
+    <div class="container mt-4" style="margin-bottom:5rem">
         <div class="row mb-4">
             <div class="col d-flex justify-content-between align-items-center">
                 <div>
@@ -54,7 +55,7 @@ export default {
         </div>
 
         <!-- Filtros -->
-        <div class="row mb-4">
+        <!-- <div class="row mb-4">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -69,7 +70,7 @@ export default {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Tabela de livros -->
         <div class="row">
@@ -86,6 +87,7 @@ export default {
                                         <th>Ano publicação</th>
                                         <th>Autores</th>
                                         <th>Assuntos</th>
+                                        <th>Valor</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -95,8 +97,9 @@ export default {
                                         <td>{{ book.editora }}</td>
                                         <td>{{ book.edicao }}</td>
                                         <td>{{ book.ano_publicacao }}</td>
-                                        <td>{{ book.authors ? book.authors.map(e => e.nome).join(', ') : '--' }}</td>
-                                        <td>{{ book.subjects ? book.subjects.map(e => e.descricao).join(', ') : '--' }}</td>
+                                        <td>{{ book.autores ? book.autores.map(e => e.nome).join(', ') : '--' }}</td>
+                                        <td>{{ book.assuntos ? book.assuntos.map(e => e.descricao).join(', ') : '--' }}</td>
+                                        <td>{{ book.valor }}</td>
                                         <td class="text-right">
                                             <button class="btn btn-sm btn-outline-primary me-1" @click="openDialogFormModal(book)"><i class="mdi mdi-pencil"></i></button>
                                             <button class="btn btn-sm btn-outline-danger"><i class="mdi mdi-delete"></i></button>
@@ -110,6 +113,6 @@ export default {
             </div>
         </div>
         
-        <ModalForm v-model="isOpenedBookDialog" />
+        <ModalForm v-model="isOpenedBookDialog" @refresh="loadLivros"/>
     </div>
 </template>

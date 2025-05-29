@@ -16,15 +16,17 @@ async function saveData() {
     const { error, message } = await store(subjectModel.value);
     if (error) {
         alert(message);
+        return;
     }
     emit('refresh')
     model.value = false;
 }
 
 async function updateData() {
-    const { error, message } = await update(subjectModel.value.id, subjectModel.value);
+    const { error, message } = await update(subjectModel.value.cod, subjectModel.value);
     if (error) {
         alert(message);
+        return;
     }
     emit('refresh')
     model.value = false;

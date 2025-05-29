@@ -84,13 +84,26 @@ class LivroService
         $value = $data['valor'] * 100;
 
         try {
-            $update =  $this->model->update(['cod' => $livroId], [
+            $update = $this->model->find($livroId)->update([
                 'titulo' => $data['titulo'],
                 'editora' => $data['editora'],
                 'edicao' => $data['edicao'],
-                'value' => $value,
+                'valor' => $value,
                 'ano_publicacao' => $data['ano_publicacao'],
             ]);
+
+            if ($data['autores']) {
+                $ids = array_map(function ($item) {
+                    return $item['cod'];
+                }, $data['autores']);
+                $this->model->find($livroId)->authors()->sync($ids);
+            }
+            if ($data['assuntos']) {
+                $ids = array_map(function ($item) {
+                    return $item['cod'];
+                }, $data['assuntos']);
+                $this->model->find($livroId)->subjects()->sync($ids);
+            }
 
             return [
                 'error' => false,
@@ -99,7 +112,8 @@ class LivroService
         } catch (\Exception $e) {
             return [
                 'error' => true,
-                'data' => "Houve um erro ao atualizar os dados"
+                // 'data' => "Houve um erro ao atualizar os dados"
+                'data' => $e->getMessage()
             ];
         }
     }

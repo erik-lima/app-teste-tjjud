@@ -32,7 +32,7 @@ async function saveData() {
 }
 
 async function updateData() {
-  const { error, message } = await update(bookModel.value.id, bookModel.value);
+  const { error, message } = await update(bookModel.value.cod, bookModel.value);
   if (error) {
     alert(message);
     return;

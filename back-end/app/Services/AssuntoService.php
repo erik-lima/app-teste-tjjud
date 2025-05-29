@@ -59,10 +59,8 @@ class AssuntoService {
 
     public function update(int $assuntoId, array $data)
     {
-        $value = $data['valor'] * 100;
-
         try {
-            $update =  $this->model->update(['cod' => $assuntoId], [
+            $update =  $this->model->find($assuntoId)->update([
                 'descricao' => $data['descricao'],
             ]);
 

@@ -26,7 +26,7 @@ class StoreLivroRequest extends FormRequest
             'editora' => 'required|string|max:40',
             'edicao' => 'required|numeric|max:100',
             'ano_publicacao' => 'required|numeric|max:9999',
-            'valor' => 'required|numeric|max:10000',
+            'valor' => 'required|numeric|max:10000|min:1',
             'autores' => "array",
             'assuntos' => "array",
         ];

@@ -23,7 +23,7 @@ async function saveData() {
 
 async function updateData() {
   const { error, message } = await update(
-    authorModel.value.id,
+    authorModel.value.cod,
     authorModel.value
   );
   if (error) {

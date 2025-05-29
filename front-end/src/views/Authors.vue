@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div class="container mt-4">
+  <div class="container mt-4" style="margin-bottom:5rem">
     <div class="row mb-4">
       <div class="col d-flex justify-content-between align-items-center">
         <div>
@@ -54,7 +54,7 @@ export default {
     </div>
 
     <!-- Filtros -->
-    <div class="row mb-4">
+    <!-- <div class="row mb-4">
       <div class="col">
         <div class="card">
           <div class="card-body">
@@ -74,7 +74,7 @@ export default {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Tabela de autores -->
     <div class="row">
@@ -93,7 +93,7 @@ export default {
                   <tr v-for="author in authorList.data" :key="author.cod">
                     <td>{{ author.nome }}</td>
                     <td>
-                      <button class="btn btn-sm btn-outline-primary me-1">
+                      <button class="btn btn-sm btn-outline-primary me-1" @click="openDialogFormModal(author)">
                         <i class="mdi mdi-pencil"></i>
                       </button>
                       <button class="btn btn-sm btn-outline-danger">

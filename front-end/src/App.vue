@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative; min-height: 96vh;">
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -55,7 +55,7 @@
     </div>
   
     <!-- Footer -->
-    <footer class="footer mt-5 py-3">
+    <footer class="footer py-3">
       <div class="container">
         <div class="text-center">
           <span class="text-muted">© {{ new Date().getFullYear() }}.</span>
@@ -105,8 +105,8 @@ body {
 /* Footer */
 .footer {
     background-color: var(--light-bg);
-    position: relative;
-    bottom: 0;
+    position: absolute !important;
+    bottom: -25px;
     width: 100%;
     border-top: 1px solid #e9ecef;
 }

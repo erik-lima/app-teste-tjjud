@@ -60,10 +60,8 @@ class AutorService {
 
     public function update(int $autorId, array $data)
     {
-        $value = $data['valor'] * 100;
-
         try {
-            $update =  $this->model->update(['cod' => $autorId], [
+            $update =  $this->model->find($autorId)->update([
                 'nome' => $data['nome'],
             ]);
 

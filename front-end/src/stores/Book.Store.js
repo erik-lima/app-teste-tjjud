@@ -19,11 +19,12 @@ export const useBookStore = defineStore("bookStore", () => {
       titulo: data.titulo || null,
       editora: data.editora || null,
       edicao: data.edicao || null,
-      valor: data.valor || 0,
+      valor: data.valor_puro || 0,
       ano_publicacao: data.ano_publicacao || null,
       autores: data.autores || [],
       assuntos: data.assuntos || [],
     };
+    console.log(model.value);
   }
 
   return {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLivroRequest;
+use App\Http\Requests\UpdateLivroRequest;
+use App\Http\Resources\LivroResource;
 use App\Models\Livro;
 use Illuminate\Http\Request;
 use App\Services\LivroService;
@@ -23,6 +25,8 @@ class LivroController extends Controller
                 'message' => $response['data']
             ], 400);
         }
+
+        $response['data'] = LivroResource::collection($response['data']);
 
         return response()->json($response);
     }
@@ -63,9 +67,9 @@ class LivroController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $livroId)
+    public function update(UpdateLivroRequest $request, int $livroId)
     {
-        $response = $this->livroService->update($livroId, $request->all());
+        $response = $this->livroService->update($livroId, $request->validated());
         if ($response['error']) {
             return response()->json([
                 'error' => true,
