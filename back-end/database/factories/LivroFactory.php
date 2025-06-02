@@ -21,7 +21,7 @@ class LivroFactory extends Factory
             'editora' => $this->faker->name(),
             'edicao' => $this->faker->numberBetween(1, 99),
             'ano_publicacao' => $this->faker->year(),
-            'valor' => $this->faker->numberBetween(5000, 250000),
+            'valor' => $this->faker->numberBetween(5000, 10000),
         ];
     }
 }
