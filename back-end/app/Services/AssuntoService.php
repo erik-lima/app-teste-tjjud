@@ -3,16 +3,16 @@
 namespace App\Services;
 
 use App\Models\Assunto;
-use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Contracts\AssuntoRepositoryInterface;
 
-class AssuntoService {
-    public function __construct(private Assunto $model) {}
+class AssuntoService
+{
+    public function __construct(private AssuntoRepositoryInterface $assuntoRepository) {}
 
-    public function list()
+    public function list(array $filters)
     {
-        try {
-            $query = $this->model->query();
-            $result =  $query->paginate();
+        try {            
+            $result =  $this->assuntoRepository->list($filters);
 
             return [
                 'error' => false,
@@ -29,7 +29,7 @@ class AssuntoService {
     public function show(int $assuntoId)
     {
         try {
-            return $this->model->find($assuntoId);
+            return $this->assuntoRepository->show($assuntoId);
         } catch (\Exception $e) {
             return [
                 'error' => true,
@@ -41,7 +41,7 @@ class AssuntoService {
     public function store($data)
     {
         try {
-            $create =  $this->model->create([
+            $create =  $this->assuntoRepository->store([
                 'descricao' => $data['descricao'],
             ]);
 
@@ -60,7 +60,7 @@ class AssuntoService {
     public function update(int $assuntoId, array $data)
     {
         try {
-            $update =  $this->model->find($assuntoId)->update([
+            $update =  $this->assuntoRepository->update($assuntoId, [
                 'descricao' => $data['descricao'],
             ]);
 
@@ -79,7 +79,7 @@ class AssuntoService {
     public function destroy(int $assuntoId)
     {
         try {
-            $deleted = $this->model->destroy($assuntoId);
+            $deleted = $this->assuntoRepository->destroy($assuntoId);
             return [
                 'error' => false,
                 'data' => $deleted

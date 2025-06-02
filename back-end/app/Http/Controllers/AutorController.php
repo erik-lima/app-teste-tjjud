@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Autor;
 use App\Services\AutorService;
 use Illuminate\Http\Request;
+use App\Helpers\ApiResponse;
 
 class AutorController extends Controller
 {
@@ -13,9 +14,10 @@ class AutorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = $this->autorService->list([]);
+        $filters = $request->query() ?? [];
+        $response = $this->autorService->list($filters);
         if ($response['error']) {
             return response()->json([
                 'error' => true,
@@ -89,5 +91,10 @@ class AutorController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function booksByAuthor(int $cod) {
+        $data = $this->autorService->booksByAuthor($cod);
+        return ApiResponse::success($data);        
     }
 }

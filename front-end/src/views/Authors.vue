@@ -61,13 +61,14 @@ export default {
     </div>
 
     <!-- Filtros -->
-    <!-- <div class="row mb-4">
+    <div class="row mb-4">
       <div class="col">
         <div class="card">
           <div class="card-body">
             <div class="row g-3">
               <div class="col-md-10">
                 <input
+                  v-model="filters.term"
                   type="text"
                   class="form-control"
                   placeholder="Buscar por nome..."
@@ -75,13 +76,13 @@ export default {
               </div>
 
               <div class="col-md-2">
-                <button class="btn btn-outline-primary w-100">Filtrar</button>
+                <button class="btn btn-outline-primary w-100" @click="loadAuthors">Filtrar</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <!-- Tabela de autores -->
     <div class="row">

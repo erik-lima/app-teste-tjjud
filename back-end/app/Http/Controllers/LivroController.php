@@ -16,9 +16,10 @@ class LivroController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = $this->livroService->list([]);
+        $filters = $request->query();
+        $response = $this->livroService->list($filters);
         if ($response['error']) {
             return response()->json([
                 'error' => true,

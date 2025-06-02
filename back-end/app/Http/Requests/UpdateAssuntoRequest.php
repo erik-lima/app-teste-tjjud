@@ -25,4 +25,12 @@ class UpdateAssuntoRequest extends FormRequest
             'descricao' => 'required|string|max:40',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'descricao.required' => "A descrição para o assunto é obrigatório",
+            'descricao.max' => "Apenas 40 caracteres são permitidos para a descrição",
+        ];
+    }
 }

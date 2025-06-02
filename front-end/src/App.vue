@@ -26,17 +26,17 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="livros">
+              <router-link class="nav-link" to="/livros">
                 <i class="fas fa-book me-1"></i> Livros
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="autores">
+              <router-link class="nav-link" to="/autores">
                 <i class="fas fa-user-edit me-1"></i> Autores
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="assuntos">
+              <router-link class="nav-link" to="/assuntos">
                 <i class="fas fa-tags me-1"></i> Assuntos
               </router-link>
             </li>

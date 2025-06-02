@@ -31,4 +31,27 @@ class UpdateLivroRequest extends FormRequest
             'assuntos' => "array",
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'titulo.required' => 'O título para o livro é obrigatório',
+            'titulo.max' => 'Apenas 40 caracters para o título são permitidos',
+            'editora.required' => 'O nome da editora é obrigatório',
+            'editora.max' => 'Apenas 40 caracters são permitidos para o nome da editora',
+            'edicao.required' => 'A edição do livro é obrigatória',
+            'edicao.numeric' => 'A edição deve ser um número',
+            'edicao.max' => 'Apenas edições entre 1 e 100 são permitidas',
+            'ano_publicacao.required' => 'O ano de publicação é obrigatório',
+            'ano_publicacao.numeric' => 'O ano de publicação deve ser um número',
+            'ano_publicacao.max' => 'O ano de publicação deve ter 4 dígitos',
+            'ano_publicacao.min' => 'O ano de publicação deve ter 4 dígitos',
+            'valor.required' => 'O valor do livro é obrigatório',
+            'valor.numeric' => 'O valor do livro deve ser um número',
+            'valor.max' => 'O valor do livro não pode ser maior que 100.000',
+            'valor.min' => 'O valor do livro deve ser pelo menos 0,01',
+            'autores.array' => 'Os autores devem ser enviados em formato de lista',
+            'assuntos.array' => 'Os assuntos devem ser enviados em formato de lista',
+        ];
+    }
 }

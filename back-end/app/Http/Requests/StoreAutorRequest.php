@@ -25,4 +25,12 @@ class StoreAutorRequest extends FormRequest
             'nome' => 'required|string|max:40',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => 'O nome do autor é obrigatório',
+            'nome.max' => 'Apenas 40 caracteres para o nome do autor são permitidos',
+        ];
+    }
 }

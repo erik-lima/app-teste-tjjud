@@ -3,22 +3,23 @@
 namespace App\Services;
 
 use App\Models\Livro;
+use App\Repositories\Contracts\LivroRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class LivroService
 {
 
-    public function __construct(private Livro $model) {}
+    public function __construct(
+        private LivroRepositoryInterface $livroRepository
+    ) {}
 
-    public function list()
+    public function list(array $filters)
     {
         try {
-            $query = $this->model->query();
-            $result =  $query->get();
-
+            $data = $this->livroRepository->list($filters);
             return [
                 'error' => false,
-                'data' => $result
+                'data' => $data
             ];
         } catch (\Exception $e) {
             return [
@@ -31,7 +32,7 @@ class LivroService
     public function show(int $livroId)
     {
         try {
-            return $this->model->find($livroId);
+            return $this->livroRepository->show($livroId);
         } catch (\Exception $e) {
             return [
                 'error' => true,
@@ -45,7 +46,7 @@ class LivroService
         $value = $data['valor'] * 100;
 
         try {
-            $create =  $this->model->create([
+            $create =  $this->livroRepository->store([
                 'titulo' => $data['titulo'],
                 'editora' => $data['editora'],
                 'edicao' => $data['edicao'],
@@ -57,13 +58,13 @@ class LivroService
                 $ids = array_map(function ($item) {
                     return $item['cod'];
                 }, $data['autores']);
-                $this->model->find($create->cod)->authors()->sync($ids);
+                $this->livroRepository->show($create->cod)->authors()->sync($ids);
             }
             if ($data['assuntos']) {
                 $ids = array_map(function ($item) {
                     return $item['cod'];
                 }, $data['assuntos']);
-                $this->model->find($create->cod)->subjects()->sync($ids);
+                $this->livroRepository->show($create->cod)->subjects()->sync($ids);
             }
 
             return [
@@ -73,8 +74,7 @@ class LivroService
         } catch (\Exception $e) {
             return [
                 'error' => true,
-                'data' => $e->getMessage()
-                // 'data' => "Houve um erro ao salvar os dados"
+                'data' => "Houve um erro ao salvar os dados"
             ];
         }
     }

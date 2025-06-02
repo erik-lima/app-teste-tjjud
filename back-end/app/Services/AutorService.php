@@ -4,17 +4,16 @@ namespace App\Services;
 
 use App\Models\Autor;
 use App\Models\Livro;
+use App\Repositories\Contracts\AutorRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class AutorService {
-    public function __construct(private Autor $model) {}
+    public function __construct(private AutorRepositoryInterface $autorRepository) {}
 
-    public function list()
+    public function list(array $filters)
     {
         try {
-            $query = $this->model->query();
-            $result =  $query->paginate();
-
+            $result = $this->autorRepository->list($filters);
             return [
                 'error' => false,
                 'data' => $result
@@ -30,7 +29,7 @@ class AutorService {
     public function show(int $autorId)
     {
         try {
-            return $this->model->find($autorId);
+            return $this->autorRepository->show($autorId);
         } catch (\Exception $e) {
             return [
                 'error' => true,
@@ -42,7 +41,7 @@ class AutorService {
     public function store($data)
     {
         try {
-            $create =  $this->model->create([
+            $create =  $this->autorRepository->store([
                 'nome' => $data['nome'],
             ]);
 
@@ -61,7 +60,7 @@ class AutorService {
     public function update(int $autorId, array $data)
     {
         try {
-            $update =  $this->model->find($autorId)->update([
+            $update =  $this->autorRepository->update($autorId, [
                 'nome' => $data['nome'],
             ]);
 
@@ -80,7 +79,7 @@ class AutorService {
     public function destroy(int $autorId)
     {
         try {
-            $deleted = $this->model->destroy($autorId);
+            $deleted = $this->autorRepository->destroy($autorId);
             return [
                 'error' => false,
                 'data' => $deleted
@@ -91,5 +90,9 @@ class AutorService {
                 'data' => "Houve um erro ao remover os dados"
             ];
         }
+    }
+
+    public function booksByAuthor(int $cod) {
+        return $this->autorRepository->booksByAuthor($cod);
     }
 }

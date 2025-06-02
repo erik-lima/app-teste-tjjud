@@ -62,22 +62,32 @@ export default {
     </div>
 
     <!-- Filtros -->
-    <!-- <div class="row mb-4">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" placeholder="Buscar por título...">
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-outline-primary w-100">Filtrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row mb-4">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-10">
+                <input
+                  v-model="filters.term"
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar por título..."
+                />
+              </div>
+              <div class="col-md-2">
+                <button
+                  class="btn btn-outline-primary w-100"
+                  @click="loadLivros"
+                >
+                  Filtrar
+                </button>
+              </div>
             </div>
-        </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Tabela de livros -->
     <div class="row">
@@ -104,12 +114,14 @@ export default {
                     <td>{{ book.editora }}</td>
                     <td>{{ book.edicao }}</td>
                     <td>{{ book.ano_publicacao }}</td>
-                    <td>
-                      {{
-                        book.autores
-                          ? book.autores.map((e) => e.nome).join(", ")
-                          : "--"
-                      }}
+                    <td v-if="book.autores">
+                      <router-link v-for="(autor, index) in book.autores" :key="autor.cod" :to="`/autores/${autor.cod}`">
+                        <span v-if="index > 0">, </span>
+                        {{ autor.nome }}
+                      </router-link>
+                    </td>
+                    <td v-else>
+                      --
                     </td>
                     <td>
                       {{
@@ -126,7 +138,10 @@ export default {
                       >
                         <i class="mdi mdi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger" @click="removeItem(book)">
+                      <button
+                        class="btn btn-sm btn-outline-danger"
+                        @click="removeItem(book)"
+                      >
                         <i class="mdi mdi-delete"></i>
                       </button>
                     </td>

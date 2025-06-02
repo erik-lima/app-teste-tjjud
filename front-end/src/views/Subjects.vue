@@ -61,22 +61,32 @@ export default {
     </div>
 
     <!-- Filtros -->
-    <!-- <div class="row mb-4">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Buscar por nome...">
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-outline-primary w-100">Filtrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row mb-4">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <input
+                  v-model="filters.term"
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar por nome..."
+                />
+              </div>
+              <div class="col-md-4">
+                <button
+                  class="btn btn-outline-primary w-100"
+                  @click="loadSubjects"
+                >
+                  Filtrar
+                </button>
+              </div>
             </div>
-        </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Tabela de assuntos -->
     <div class="row">
@@ -95,10 +105,16 @@ export default {
                   <tr v-for="subject in subjectList.data" :key="subject.cod">
                     <td>{{ subject.descricao }}</td>
                     <td>
-                      <button class="btn btn-sm btn-outline-primary me-1" @click="openDialogFormModal(subject)">
+                      <button
+                        class="btn btn-sm btn-outline-primary me-1"
+                        @click="openDialogFormModal(subject)"
+                      >
                         <i class="mdi mdi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger" @click="removeItem(subject)">
+                      <button
+                        class="btn btn-sm btn-outline-danger"
+                        @click="removeItem(subject)"
+                      >
                         <i class="mdi mdi-delete"></i>
                       </button>
                     </td>

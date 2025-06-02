@@ -12,9 +12,10 @@ class AssuntoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = $this->assuntoService->list([]);
+        $filters = $request->query();
+        $response = $this->assuntoService->list($filters);
         if ($response['error']) {
             return response()->json([
                 'error' => true,

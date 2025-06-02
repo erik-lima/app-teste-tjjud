@@ -25,11 +25,16 @@ export function useAuthorsService() {
     return handleAPI(fetchAPI.delete(`/v1/autores/${id}`));
   }
 
+  function booksByAuthor(id) {
+    return handleAPI(fetchAPI.get(`/v1/autores/livros-por-autor/${id}`));
+  }
+
   return {
     list,
     store,
     update,
     show,
     destroy,
+    booksByAuthor
   };
 }
