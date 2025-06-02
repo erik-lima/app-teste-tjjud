@@ -29,7 +29,10 @@ class AssuntoService
     public function show(int $assuntoId)
     {
         try {
-            return $this->assuntoRepository->show($assuntoId);
+            return [
+                'error' => false,
+                'data' => $this->assuntoRepository->show($assuntoId)
+            ];
         } catch (\Exception $e) {
             return [
                 'error' => true,

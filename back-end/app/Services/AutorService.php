@@ -29,7 +29,10 @@ class AutorService {
     public function show(int $autorId)
     {
         try {
-            return $this->autorRepository->show($autorId);
+            return [
+                'error' => false,
+                'data' => $this->autorRepository->show($autorId)
+            ];
         } catch (\Exception $e) {
             return [
                 'error' => true,

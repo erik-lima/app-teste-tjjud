@@ -17,6 +17,15 @@ class AssuntoRespository implements AssuntoRepositoryInterface {
             ->paginate();
     }
 
+    public function count(?array $filters)
+    {
+        return $this->assunto
+            ->when(isset($filters['term']), function ($q) use ($filters) {
+                $q->where('descricao', 'like', '%' . $filters['term'] . '%');
+            })
+            ->count();
+    }
+
     public function show(int $cod)
     {
         return $this->assunto->find($cod);

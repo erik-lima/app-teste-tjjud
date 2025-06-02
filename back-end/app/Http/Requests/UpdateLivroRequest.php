@@ -26,9 +26,9 @@ class UpdateLivroRequest extends FormRequest
             'editora' => 'required|string|max:40',
             'edicao' => 'required|numeric|max:100',
             'ano_publicacao' => 'required|numeric|max:9999',
-            'valor' => 'required|numeric|max:10000|min:1',
-            'autores' => "array",
-            'assuntos' => "array",
+            'valor' => 'required|numeric|max:1000000|min:1',
+            'autores' => "required|array",
+            'assuntos' => "required|array",
         ];
     }
 
@@ -52,6 +52,8 @@ class UpdateLivroRequest extends FormRequest
             'valor.min' => 'O valor do livro deve ser pelo menos 0,01',
             'autores.array' => 'Os autores devem ser enviados em formato de lista',
             'assuntos.array' => 'Os assuntos devem ser enviados em formato de lista',
+            'autores.required' => 'Os autores devem ser enviados',
+            'assuntos.required' => 'Os assuntos devem ser enviados',
         ];
     }
 }

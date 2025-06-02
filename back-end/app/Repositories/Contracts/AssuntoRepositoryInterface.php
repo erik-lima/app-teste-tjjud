@@ -5,6 +5,8 @@ namespace App\Repositories\Contracts;
 interface AssuntoRepositoryInterface {
 
     public function list(array $filters);
+    
+    public function count(?array $filters);
 
     public function show(int $cod);
 

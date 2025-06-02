@@ -2,24 +2,33 @@
 
 namespace App\Services;
 
-use App\Models\Livro;
+use App\Repositories\Contracts\AssuntoRepositoryInterface;
+use App\Repositories\Contracts\AutorRepositoryInterface;
 use App\Repositories\Contracts\LivroRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 
-class LivroService
+class HomeService
 {
 
     public function __construct(
-        private LivroRepositoryInterface $livroRepository
+        private LivroRepositoryInterface $livroRepository,
+        private AutorRepositoryInterface $autorRepository,
+        private AssuntoRepositoryInterface $assuntoRepository,
     ) {}
 
-    public function list(array $filters)
+    public function homeData()
     {
         try {
-            $data = $this->livroRepository->list($filters);
+            $livros = $this->livroRepository->count([]);
+            $autores = $this->autorRepository->count([]);
+            $assuntos = $this->assuntoRepository->count([]);
+
             return [
                 'error' => false,
-                'data' => $data
+                'data' => [
+                    'livros' => $livros,
+                    'autores' => $autores,
+                    'assuntos' => $assuntos,
+                ]
             ];
         } catch (\Exception $e) {
             return [
@@ -32,10 +41,7 @@ class LivroService
     public function show(int $livroId)
     {
         try {
-            return [
-                'error' => false,
-                'data' => $this->livroRepository->show($livroId)
-            ];
+            return $this->livroRepository->show($livroId);
         } catch (\Exception $e) {
             return [
                 'error' => true,
@@ -77,7 +83,7 @@ class LivroService
         } catch (\Exception $e) {
             return [
                 'error' => true,
-                'data' => $e->getMessage()
+                'data' => "Houve um erro ao salvar os dados"
             ];
         }
     }
@@ -87,7 +93,7 @@ class LivroService
         $value = $data['valor'] * 100;
 
         try {
-            $update = $this->livroRepository->show($livroId)->update([
+            $update = $this->model->find($livroId)->update([
                 'titulo' => $data['titulo'],
                 'editora' => $data['editora'],
                 'edicao' => $data['edicao'],
@@ -99,13 +105,13 @@ class LivroService
                 $ids = array_map(function ($item) {
                     return $item['cod'];
                 }, $data['autores']);
-                $this->livroRepository->show($livroId)->authors()->sync($ids);
+                $this->model->find($livroId)->authors()->sync($ids);
             }
             if ($data['assuntos']) {
                 $ids = array_map(function ($item) {
                     return $item['cod'];
                 }, $data['assuntos']);
-                $this->livroRepository->show($livroId)->subjects()->sync($ids);
+                $this->model->find($livroId)->subjects()->sync($ids);
             }
 
             return [
@@ -124,7 +130,7 @@ class LivroService
     public function destroy(int $livroId)
     {
         try {
-            $deleted = $this->livroRepository->destroy($livroId);
+            $deleted = $this->model->destroy($livroId);
             return [
                 'error' => false,
                 'data' => $deleted

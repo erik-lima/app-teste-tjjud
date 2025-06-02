@@ -97,7 +97,7 @@ export default {
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>Descrição</th>
+                    <th width="80%">Descrição</th>
                     <th>Ações</th>
                   </tr>
                 </thead>

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Services\AssuntoService;
 use Illuminate\Http\Request;
+use App\Helpers\ApiResponse;
+use App\Http\Requests\StoreAssuntoRequest;
+use App\Http\Requests\UpdateAssuntoRequest;
+use Illuminate\Http\JsonResponse;
 
 class AssuntoController extends Controller
 {
@@ -17,30 +21,24 @@ class AssuntoController extends Controller
         $filters = $request->query();
         $response = $this->assuntoService->list($filters);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAssuntoRequest $request)
     {
         $response = $this->assuntoService->store($request->all());
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data'], 'Operação realizada com sucesso', JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -50,29 +48,23 @@ class AssuntoController extends Controller
     {
         $response = $this->assuntoService->show($assuntoId);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $assuntoId)
+    public function update(UpdateAssuntoRequest $request, int $assuntoId)
     {
         $response = $this->assuntoService->update($assuntoId, $request->all());
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
     /**
@@ -82,12 +74,9 @@ class AssuntoController extends Controller
     {
         $response = $this->assuntoService->destroy($assuntoId);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data'], "Operação realizada com sucesso", JsonResponse::HTTP_NO_CONTENT);
     }
 }

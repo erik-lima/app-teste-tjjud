@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         \DB::statement("
-            CREATE VIEW livros_por_autor 
+            CREATE OR REPLACE VIEW livros_por_autor 
             AS
             SELECT 
                 au.cod as cod_autor,
@@ -45,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        \DB::statement("DROP VIEW livros_por_autor;");
     }
 };

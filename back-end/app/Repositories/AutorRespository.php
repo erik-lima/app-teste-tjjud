@@ -20,6 +20,15 @@ class AutorRespository implements AutorRepositoryInterface
             ->paginate();
     }
 
+    public function count(?array $filters)
+    {
+        return $this->autor
+            ->when(isset($filters['term']), function ($q) use ($filters) {
+                $q->where('descricao', 'like', '%' . $filters['term'] . '%');
+            })
+            ->count();
+    }
+
     public function show(int $cod)
     {
         return $this->autor->find($cod);

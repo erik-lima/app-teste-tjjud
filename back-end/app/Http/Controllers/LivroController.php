@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLivroRequest;
 use App\Http\Requests\UpdateLivroRequest;
 use App\Http\Resources\LivroResource;
-use App\Models\Livro;
 use Illuminate\Http\Request;
 use App\Services\LivroService;
+use App\Helpers\ApiResponse;
+use Illuminate\Http\JsonResponse;
 
 class LivroController extends Controller
 {
@@ -21,15 +22,11 @@ class LivroController extends Controller
         $filters = $request->query();
         $response = $this->livroService->list($filters);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            throw new \RuntimeException($response['error']);
         }
 
         $response['data'] = LivroResource::collection($response['data']);
-
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
 
@@ -40,13 +37,10 @@ class LivroController extends Controller
     {
         $response = $this->livroService->store($request->validated());
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data'], "Operação ralizada com sucesso", JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -56,13 +50,10 @@ class LivroController extends Controller
     {
         $response = $this->livroService->show($livroId);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
     /**
@@ -72,13 +63,10 @@ class LivroController extends Controller
     {
         $response = $this->livroService->update($livroId, $request->validated());
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            throw new \RuntimeException($response['error']);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
     /**
@@ -88,12 +76,9 @@ class LivroController extends Controller
     {
         $response = $this->livroService->destroy($livroId);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data'], "Operação ralizada com sucesso", JsonResponse::HTTP_NO_CONTENT);
     }
 }

@@ -93,7 +93,7 @@ export default {
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>Nome</th>
+                    <th width="80%">Nome</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -101,6 +101,9 @@ export default {
                   <tr v-for="author in authorList.data" :key="author.cod">
                     <td>{{ author.nome }}</td>
                     <td>
+                      <router-link class="btn btn-sm btn-outline-primary me-1" :to="`/autores/${author.cod}`">
+                        <i class="mdi mdi-eye"></i>
+                      </router-link>
                       <button class="btn btn-sm btn-outline-primary me-1" @click="openDialogFormModal(author)">
                         <i class="mdi mdi-pencil"></i>
                       </button>

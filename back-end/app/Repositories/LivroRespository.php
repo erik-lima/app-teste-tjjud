@@ -18,6 +18,15 @@ class LivroRespository implements LivroRepositoryInterface
             ->paginate();
     }
 
+    public function count(?array $filters)
+    {
+        return $this->livro
+            ->when(isset($filters['term']), function ($q) use ($filters) {
+                $q->where('descricao', 'like', '%' . $filters['term'] . '%');
+            })
+            ->count();
+    }
+
     public function show(int $cod)
     {
         return $this->livro->find($cod);

@@ -6,6 +6,9 @@ use App\Models\Autor;
 use App\Services\AutorService;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use App\Http\Requests\StoreAutorRequest;
+use App\Http\Requests\UpdateAutorRequest;
+use Illuminate\Http\JsonResponse;
 
 class AutorController extends Controller
 {
@@ -19,30 +22,24 @@ class AutorController extends Controller
         $filters = $request->query() ?? [];
         $response = $this->autorService->list($filters);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAutorRequest $request)
     {
         $response = $this->autorService->store($request->all());
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data'], "Operação ralizada com sucesso", JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -52,29 +49,23 @@ class AutorController extends Controller
     {
         $response = $this->autorService->show($autorId);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $autorId)
+    public function update(UpdateAutorRequest $request, int $autorId)
     {
         $response = $this->autorService->update($autorId, $request->all());
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data']);
     }
 
     /**
@@ -84,13 +75,10 @@ class AutorController extends Controller
     {
         $response = $this->autorService->destroy($autorId);
         if ($response['error']) {
-            return response()->json([
-                'error' => true,
-                'message' => $response['data']
-            ], 400);
+            return throw new \Exception($response['data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        return response()->json($response);
+        return ApiResponse::success($response['data'], "Operação realizada com sucesso", JsonResponse::HTTP_NO_CONTENT);
     }
 
     public function booksByAuthor(int $cod) {

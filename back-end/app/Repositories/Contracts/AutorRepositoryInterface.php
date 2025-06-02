@@ -6,6 +6,8 @@ interface AutorRepositoryInterface {
 
     public function list(array $filters);
 
+    public function count(?array $filters);
+
     public function show(int $cod);
 
     public function store(array $data);

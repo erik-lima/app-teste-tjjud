@@ -1,3 +1,28 @@
+<script setup>
+import { useHomeService } from '@/composables/Services/Home.Service';
+import { onMounted, ref } from 'vue';
+
+const { homeData } = useHomeService();
+const totalLivros = ref(0);
+const totalAutores = ref(0);
+const totalAssuntos = ref(0);
+
+async function loadData() {
+  const { data, error, message } = await homeData();
+  if (error) {
+    alert(message);
+  }
+
+  totalLivros.value = data.livros;
+  totalAutores.value = data.autores;
+  totalAssuntos.value = data.assuntos;
+}
+
+onMounted(() => {
+  loadData()
+})
+</script>
+
 <script>
 export default {
   name: "HomeScreen",
@@ -20,11 +45,10 @@ export default {
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h6 class="card-title text-muted">Total de Livros</h6>
-                <h2 class="mb-0">1,254</h2>
+                <h2 class="mb-0">{{ totalLivros }}</h2>
               </div>
-              <div class="stat-icon">
-                <i class="fas fa-book"></i>
-              </div>
+
+              <router-link to="/livros">Ver todos</router-link>
             </div>
           </div>
         </div>
@@ -35,11 +59,9 @@ export default {
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h6 class="card-title text-muted">Autores</h6>
-                <h2 class="mb-0">348</h2>
+                <h2 class="mb-0">{{ totalAutores  }}</h2>
               </div>
-              <div class="stat-icon">
-                <i class="fas fa-user-edit"></i>
-              </div>
+              <router-link to="/autores">Ver todos</router-link>
             </div>
           </div>
         </div>
@@ -50,11 +72,9 @@ export default {
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h6 class="card-title text-muted">Assuntos</h6>
-                <h2 class="mb-0">42</h2>
+                <h2 class="mb-0">{{ totalAssuntos }}</h2>
               </div>
-              <div class="stat-icon">
-                <i class="fas fa-tags"></i>
-              </div>
+              <router-link to="/assuntos">Ver todos</router-link>
             </div>
           </div>
         </div>
