@@ -58,7 +58,7 @@ async function updateData() {
 </script>
 
 <template>
-  <DialogBox v-model="model" title="Novo livro" ref="dialogModal">
+  <DialogBox v-model="model" title="Novo assunto" ref="dialogModal">
     <template #body>
       <form>
         <div class="form-group">
